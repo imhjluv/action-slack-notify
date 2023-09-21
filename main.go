@@ -55,6 +55,8 @@ type Field struct {
 }
 
 func main() {
+	githubRef := os.Getenv("GITHUB_REF")
+	trimmedRef := strings.Replace(githubRef, "refs/heads/", "", 1)
 	endpoint := os.Getenv(EnvSlackWebhook)
 	if endpoint == "" {
 		fmt.Fprintln(os.Stderr, "URL is required")
@@ -97,8 +99,8 @@ func main() {
 			case "ref":
 				field := []Field{
 					{
-						Title: "Ref",
-						Value: os.Getenv("GITHUB_REF"),
+						Title: "Branch",
+						Value: fmt.Println(trimmedRef),
 						Short: true,
 					},
 				}
@@ -136,8 +138,8 @@ func main() {
 	} else {
 		mainFields := []Field{
 			{
-				Title: "Ref",
-				Value: os.Getenv("GITHUB_REF"),
+				Title: "Branch",
+				Value: fmt.Println(trimmedRef),
 				Short: true,
 			}, {
 				Title: "Event",
